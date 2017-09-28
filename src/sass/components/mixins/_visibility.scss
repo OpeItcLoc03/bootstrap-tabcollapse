@@ -1,0 +1,13 @@
+// Visibility
+
+@mixin responsive-visibility($parent) {
+    #{$parent} {
+        display: block !important;
+    }
+}
+
+@mixin responsive-invisibility($parent) {
+    #{$parent} {
+        display: none !important;
+    }
+}

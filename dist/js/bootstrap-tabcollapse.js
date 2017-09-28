@@ -24,16 +24,16 @@
     };
 
     TabCollapse.DEFAULTS = {
-        accordionClass: 'visible-xs',
-        tabsClass: 'hidden-xs',
+        accordionClass: 'hidden-sm-up',
+        tabsClass: 'hidden-xs-down',
         accordionTemplate: function(heading, groupId, parentId, active) {
-            return  '<div class="panel panel-default">' +
-                    '   <div class="panel-heading">' +
-                    '      <h4 class="panel-title">' +
+            return  '<div class="card card-block">' +
+                    '   <div class="card-heading">' +
+                    '      <h4 class="card-title">' +
                     '      </h4>' +
                     '   </div>' +
-                    '   <div id="' + groupId + '" class="panel-collapse collapse ' + (active ? 'in' : '') + '">' +
-                    '       <div class="panel-body js-tabcollapse-panel-body">' +
+                    '   <div id="' + groupId + '" class=" collapse ' + (active ? 'in' : '') + '">' +
+                    '       <div class="js-tabcollapse-card-block">' +
                     '       </div>' +
                     '   </div>' +
                     '</div>'
@@ -55,13 +55,13 @@
         var view = this;
         this.$tabs.trigger($.Event('show-tabs.bs.tabcollapse'));
 
-        var $panelHeadings = this.$accordion.find('.js-tabcollapse-panel-heading').detach();
+        var $cardHeadings = this.$accordion.find('.js-tabcollapse-card-heading').detach();
 
-        $panelHeadings.each(function() {
-            var $panelHeading = $(this),
-            $parentLi = $panelHeading.data('bs.tabcollapse.parentLi');
+        $cardHeadings.each(function() {
+            var $cardHeading = $(this),
+            $parentLi = $cardHeading.data('bs.tabcollapse.parentLi');
 
-            var $oldHeading = view._panelHeadingToTabHeading($panelHeading);
+            var $oldHeading = view._cardHeadingToTabHeading($cardHeading);
 
             $parentLi.removeClass('active');
             if ($parentLi.parent().hasClass('dropdown-menu') && !$parentLi.siblings('li').hasClass('active')) {
@@ -77,18 +77,18 @@
                 $oldHeading.removeClass('collapsed');
             }
 
-            $parentLi.append($panelHeading);
+            $parentLi.append($cardHeading);
         });
 
         if (!$('li').hasClass('active')) {
             $('li').first().addClass('active')
         }
 
-        var $panelBodies = this.$accordion.find('.js-tabcollapse-panel-body');
-        $panelBodies.each(function(){
-            var $panelBody = $(this),
-                $tabPane = $panelBody.data('bs.tabcollapse.tabpane');
-            $tabPane.append($panelBody.contents().detach());
+        var $cardBodies = this.$accordion.find('.js-tabcollapse-card-block');
+        $cardBodies.each(function(){
+            var $cardBody = $(this),
+                $tabPane = $cardBody.data('bs.tabcollapse.tabpane');
+            $tabPane.append($cardBody.contents().detach());
         });
         this.$accordion.html('');
 
@@ -131,7 +131,7 @@
 
         if(this.options.updateLinks) {
             var parentId = this.$accordion.attr('id');
-            var $selector = this.$accordion.find('.js-tabcollapse-panel-body');
+            var $selector = this.$accordion.find('.js-tabcollapse-card-block');
             $selector.find('[data-toggle="tab"], [data-toggle="pill"]').each(function() {
                 var $el = $(this);
                 var href = $el.attr('href') + '-collapse';
@@ -147,7 +147,7 @@
         this.$tabs.trigger($.Event('shown-accordion.bs.tabcollapse'));
     };
 
-    TabCollapse.prototype._panelHeadingToTabHeading = function($heading) {
+    TabCollapse.prototype._cardHeadingToTabHeading = function($heading) {
         var href = $heading.attr('href').replace(/-collapse$/g, '');
         $heading.attr({
             'data-toggle': 'tab',
@@ -157,8 +157,8 @@
         return $heading;
     };
 
-    TabCollapse.prototype._tabHeadingToPanelHeading = function($heading, groupId, parentId, active) {
-        $heading.addClass('js-tabcollapse-panel-heading ' + (active ? '' : 'collapsed'));
+    TabCollapse.prototype._tabHeadingToCardHeading = function($heading, groupId, parentId, active) {
+        $heading.addClass('js-tabcollapse-card-heading ' + (active ? '' : 'collapsed'));
         $heading.attr({
             'data-toggle': 'collapse',
             'data-parent': '#' + parentId,
@@ -191,7 +191,7 @@
         var srcId = this.$tabs.attr('id'),
             accordionId = (srcId ? srcId : randomString()) + '-accordion';
 
-        this.$accordion = $('<div class="panel-group ' + this.options.accordionClass + '" id="' + accordionId +'"></div>');
+        this.$accordion = $('<div class="' + this.options.accordionClass + '" id="' + accordionId +'"></div>');
         this.$tabs.after(this.$accordion);
         this.$tabs.addClass(this.options.tabsClass);
         this.getTabContentElement().addClass(this.options.tabsClass);
@@ -208,12 +208,12 @@
 
         var $tabPane = $(tabSelector),
             groupId = $tabPane.attr('id') + '-collapse',
-            $panel = $(this.options.accordionTemplate($heading, groupId, parentId, active));
-        $panel.find('.panel-heading > .panel-title').append(this._tabHeadingToPanelHeading($heading, groupId, parentId, active));
-        $panel.find('.panel-body').append($tabPane.contents().detach())
+            $card = $(this.options.accordionTemplate($heading, groupId, parentId, active));
+        $card.find('.card-title').append(this._tabHeadingToCardHeading($heading, groupId, parentId, active));
+        $card.find('.js-tabcollapse-card-block').append($tabPane.contents().detach())
             .data('bs.tabcollapse.tabpane', $tabPane);
 
-        return $panel;
+        return $card;
     };
 
 

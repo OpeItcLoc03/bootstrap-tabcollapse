@@ -1,0 +1,29 @@
+{
+  "name": "bootstrap-tabcollapse",
+  "version": "0.0.1",
+  "description": "Forked version of the Bootstrap TabCollapse JS library",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moso/bootstrap-tabcollapse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/moso/bootstrap-tabcollapse/issues"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Morten Sørensen",
+    "email": "morten@moso.io",
+    "url": "https://moso.io"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^1.4.5"
+  }
+}
